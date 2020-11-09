@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
+
+import { styles } from './style';
 
 interface Props {
   name: string;
@@ -9,13 +12,23 @@ interface Props {
 }
 
 const ListItem: React.FC<Props> = ({ name, population, onPress }) => {
+  const [loaded] = useFonts({
+    Starjedi: require('../../assets/fonts/Starjedi.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
   return (
     <View>
       <TouchableOpacity style={styles.container} onPress={() => onPress()}>
         <View>
-          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>
+            {name === 'unknown' ? 'Sem informação' : name}
+          </Text>
           <Text style={styles.subTitle}>
-            População: {population === 'unknown' ? 0 : population}
+            População:{' '}
+            {population === 'unknown' ? 'Sem informação' : population}
           </Text>
         </View>
         <AntDesign name="right" size={24} />
@@ -23,27 +36,5 @@ const ListItem: React.FC<Props> = ({ name, population, onPress }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderColor: '#333',
-    padding: 10,
-  },
-
-  title: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 5,
-  },
-});
 
 export default ListItem;

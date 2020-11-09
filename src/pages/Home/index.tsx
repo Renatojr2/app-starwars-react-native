@@ -1,31 +1,50 @@
-import React, { useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { useFonts } from 'expo-font';
 
 import { usePlanets } from '../../hooks/usePlanets';
 import ListItem from '../../components/ListItem';
 import { AppContext } from '../../context/appContext';
 import { useNavigation } from '@react-navigation/native';
+import Buttons from '../../components/Buttons';
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
-  const { dispatch, state } = useContext(AppContext);
-  let { planets } = usePlanets();
+  const { dispatch } = useContext(AppContext);
+  let { planets, page, setPage, data } = usePlanets();
 
-  const handleNextPage = (item: string) => {
+  const [loaded] = useFonts({
+    Starjedi: require('../../assets/fonts/Starjedi.ttf'),
+  });
+
+  const handlePageDetails = (item: string) => {
     const action = { type: 'planetSelected', payload: item };
     dispatch(action);
     navigation.navigate('Details');
   };
 
+  const handleNextPage = () => {
+    if (data!.next !== null) {
+      setPage(++page);
+    } else {
+      setPage(page);
+    }
+  };
+  const handlePreviousPage = () => {
+    if (data!.previous !== null) {
+      setPage(--page);
+    } else {
+      setPage(page);
+    }
+  };
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <>
-      <View style={{ flex: 8 }}>
+      <SafeAreaView style={{ flex: 8 }}>
         <FlatList
           data={planets}
           keyExtractor={(item) => item.name}
@@ -33,34 +52,17 @@ const Home: React.FC = () => {
             <ListItem
               name={item.name}
               population={item.population}
-              onPress={() => handleNextPage(item.name)}
+              onPress={() => handlePageDetails(item.name)}
             />
           )}
         />
-      </View>
-      <View style={styles.container}>
-        <View>
-          <TouchableOpacity>
-            <Text>Anterior</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <Text>Proximo</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </SafeAreaView>
+      <Buttons
+        onPressPreviousPage={handlePreviousPage}
+        onPressNextPage={handleNextPage}
+      />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-});
 
 export default Home;

@@ -1,43 +1,74 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { AppContext } from '../../context/appContext';
 import axios from 'axios';
+import { useFonts } from 'expo-font';
+
+import PlanetsDetails from '../../components/PlanetsDetails';
+import ResidentsDetails from '../../components/ResidentsDetails';
+
+import { styles } from './style';
+import NotResident from '../../components/NotResident';
+
+interface IResidents {
+  name: string;
+  mass: string;
+  created: string;
+}
 
 const Details: React.FC = () => {
-  // const { resident } = useReseidents();
-  const [residents, setResidents] = useState<string[]>([].flat());
+  const [residents, setResidents] = useState<IResidents[]>([]);
+  const [flag, setFlag] = useState(false);
   const { state } = useContext(AppContext);
   const details = state.planets.filter(
-    (planet: string) => planet.name === state.planetselected
+    (planet) => planet.name === state.planetselected
   )[0];
+  const [loaded] = useFonts({
+    Starjedi: require('../../assets/fonts/Starjedi.ttf'),
+  });
 
   useEffect(() => {
-    details.residents.forEach(async (item) => {
-      const result = await axios.get(item);
-      setResidents((state: string[]) => {
-        return [...state, result.data];
+    details.residents.forEach((item) => {
+      axios.get(item).then((res) => {
+        setResidents((state: IResidents[]) => {
+          return [...state, res.data];
+        });
       });
+      setFlag(true);
     });
   }, []);
 
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <>
-      <View>
-        <Text>{details.name}</Text>
-        <Text>{details.climate}</Text>
-        <Text>{details.terrain}</Text>
-        <Text>{details.population}</Text>
+      <View style={styles.container}>
+        <PlanetsDetails
+          name={details.name}
+          terrain={details.terrain}
+          climate={details.climate}
+          population={details.population}
+        />
+        <Text style={styles.title}>Residentes</Text>
+        <View style={styles.card}>
+          {residents.length === 0 && flag === false ? (
+            <NotResident />
+          ) : (
+            <FlatList
+              data={residents}
+              style={{ marginRight: 15 }}
+              horizontal
+              keyExtractor={(item, index) => item.name + index}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <ResidentsDetails name={item.name} mass={item.mass} />
+              )}
+            />
+          )}
+        </View>
       </View>
-      {residents === undefined ? (
-        <Text>Loading</Text>
-      ) : (
-        residents.map((item) => (
-          <>
-            <Text>{item.name}</Text>
-            <Text>{item.mass}</Text>
-          </>
-        ))
-      )}
     </>
   );
 };
