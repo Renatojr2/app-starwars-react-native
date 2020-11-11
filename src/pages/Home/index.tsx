@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useContext } from 'react';
+import { FlatList, SafeAreaView, View } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import { usePlanets } from '../../hooks/usePlanets';
-import ListItem from '../../components/ListItem';
+import ListItem from '../../components/ListPlanets';
 import { AppContext } from '../../context/appContext';
 import { useNavigation } from '@react-navigation/native';
-import Buttons from '../../components/Buttons';
+import Button from '../../components/Button';
 
 const Home: React.FC = () => {
   const navigation = useNavigation();
@@ -57,10 +57,10 @@ const Home: React.FC = () => {
           )}
         />
       </SafeAreaView>
-      <Buttons
-        onPressPreviousPage={handlePreviousPage}
-        onPressNextPage={handleNextPage}
-      />
+      <View style={{ flexDirection: 'row' }}>
+        <Button text="Anterio" onPressPage={handlePreviousPage} />
+        <Button text="Próximo" onPressPage={handleNextPage} />
+      </View>
     </>
   );
 };

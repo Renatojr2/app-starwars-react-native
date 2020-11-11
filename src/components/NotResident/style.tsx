@@ -1,10 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: 332,
+    width: Dimensions.get('window').width * 0.9,
   },
 
   description: {
@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'Starjedi',
     fontSize: 16,
 
-    top: 30,
+    top: 65,
   },
 });

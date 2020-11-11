@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   planetContainer: {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     borderColor: '#666',
     borderWidth: 1,
 
-    width: 330,
+    width: Dimensions.get('window').width * 0.93,
 
     marginLeft: 5,
     padding: 10,
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     padding: 10,
 
-    width: 135,
+    width: Dimensions.get('window').width / 3,
 
     borderRightWidth: 5,
     borderTopWidth: 4,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     padding: 10,
 
-    width: 190,
+    width: Dimensions.get('window').width * 0.58,
 
     borderRightWidth: 5,
     borderTopWidth: 4,
