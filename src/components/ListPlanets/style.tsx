@@ -6,10 +6,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderColor: '#000',
     padding: 10,
     backgroundColor: '#fff',
+    marginTop: 5,
   },
 
   title: {

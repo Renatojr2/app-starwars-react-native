@@ -11,7 +11,7 @@ interface Props {
   onPress: Function;
 }
 
-const ListItem: React.FC<Props> = ({ name, population, onPress }) => {
+const ListPlanets: React.FC<Props> = ({ name, population, onPress }) => {
   const [loaded] = useFonts({
     Starjedi: require('../../assets/fonts/Starjedi.ttf'),
   });
@@ -37,4 +37,4 @@ const ListItem: React.FC<Props> = ({ name, population, onPress }) => {
   );
 };
 
-export default ListItem;
+export default ListPlanets;

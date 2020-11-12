@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: 'Starjedi',
     textAlign: 'center',
+    marginTop: 20,
   },
 
   card: {

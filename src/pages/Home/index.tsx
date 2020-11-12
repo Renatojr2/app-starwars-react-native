@@ -3,7 +3,7 @@ import { FlatList, SafeAreaView, View } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import { usePlanets } from '../../hooks/usePlanets';
-import ListItem from '../../components/ListPlanets';
+import ListPlanets from '../../components/ListPlanets';
 import { AppContext } from '../../context/appContext';
 import { useNavigation } from '@react-navigation/native';
 import Button from '../../components/Button';
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
           data={planets}
           keyExtractor={(item) => item.name}
           renderItem={({ item }) => (
-            <ListItem
+            <ListPlanets
               name={item.name}
               population={item.population}
               onPress={() => handlePageDetails(item.name)}
