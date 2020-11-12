@@ -58,7 +58,7 @@ const Home: React.FC = () => {
         />
       </SafeAreaView>
       <View style={{ flexDirection: 'row' }}>
-        <Button text="Anterio" onPressPage={handlePreviousPage} />
+        <Button text="Anterior" onPressPage={handlePreviousPage} />
         <Button text="Próximo" onPressPage={handleNextPage} />
       </View>
     </>
